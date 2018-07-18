@@ -67,22 +67,22 @@ float MAX17055::getTimeToEmpty()
 void MAX17055::writeReg16Bit(uint8_t reg, uint16_t value)
 {
   //Write order is LSB first, and then MSB. Refer to AN635 pg 35 figure 1.12.2.5
-  Wire.beginTransmission(I2CAddress);
-  Wire.write(reg);
-  Wire.write( value       & 0xFF); // value low byte
-  Wire.write((value >> 8) & 0xFF); // value high byte
-  uint8_t last_status = Wire.endTransmission();
+  Wire2.beginTransmission(I2CAddress);
+  Wire2.write(reg);
+  Wire2.write( value       & 0xFF); // value low byte
+  Wire2.write((value >> 8) & 0xFF); // value high byte
+  uint8_t last_status = Wire2.endTransmission();
 }
 
 uint16_t MAX17055::readReg16Bit(uint8_t reg)
 {
   uint16_t value = 0;  
-  Wire.beginTransmission(I2CAddress); 
-  Wire.write(reg);
-  uint8_t last_status = Wire.endTransmission(false);
+  Wire2.beginTransmission(I2CAddress); 
+  Wire2.write(reg);
+  uint8_t last_status = Wire2.endTransmission(false);
   
-  Wire.requestFrom(I2CAddress, (uint8_t) 2); 
-  value  = Wire.read();
-  value |= (uint16_t)Wire.read() << 8;      // value low byte
+  Wire2.requestFrom(I2CAddress, (uint8_t) 2); 
+  value  = Wire2.read();
+  value |= (uint16_t)Wire2.read() << 8;      // value low byte
   return value;
 }
